@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080d16">
+  <meta name="description" content="ORBIT PS4 browser-host interface and diagnostics. Exploit integration is not included.">
+  <title>ORBIT // PS4 Browser Host</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><div class="mark">O</div><div><p class="eyebrow">PS4 BROWSER HOST / 13.52 PROFILE</p><h1>ORBIT <span>BROWSER HOST</span></h1></div></div>
+      <div class="pill"><i class="dot"></i><span id="uiState">HOST UI READY</span></div>
+    </header>
+
+    <section class="hero panel">
+      <div class="hero-copy">
+        <p class="eyebrow">PROJECT ORBIT · PREVIEW BUILD</p>
+        <h2>Console <span>13.52</span></h2>
+        <p class="muted">A Git-hosted browser interface for project development.</p>
+        <div class="notice"><strong>IMPORTANT:</strong> This website does not contain a PS4 WebKit exploit, kernel exploit, or HEN payload. It cannot jailbreak the console by itself.</div>
+      </div>
+      <div class="ring-wrap" aria-hidden="true"><div class="ring"><div class="ring-core">ORBIT<small>HOST UI</small></div></div></div>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <div class="card-head"><h3>Console profile</h3><span class="tag">MANUAL</span></div>
+        <div class="status-line"><span class="glyph">◇</span><div><strong>PS4 firmware profile</strong><p class="muted">13.52 · User selected, not detected by the browser.</p></div></div>
+        <button class="secondary" id="profileBtn">Confirm profile</button>
+      </article>
+      <article class="panel">
+        <div class="card-head"><h3>Exploit integration</h3><span class="tag warn" id="exploitTag">NOT CONFIGURED</span></div>
+        <div class="status-line"><span class="glyph">⌁</span><div><strong id="exploitState">No exploit adapter</strong><p class="muted" id="exploitDetail">No exploit code is bundled in this repository.</p></div></div>
+        <button class="secondary" id="checkBtn">Run safe UI checks</button>
+      </article>
+    </section>
+
+    <section class="panel log-panel">
+      <div class="card-head"><div><p class="eyebrow">LOCAL DIAGNOSTICS</p><h3>Event log</h3></div><div class="actions"><button class="tiny" id="copyBtn">Copy</button><button class="tiny" id="clearBtn">Clear</button></div></div>
+      <div class="log" id="log" role="log" aria-live="polite"></div>
+      <div class="log-foot"><span id="logCount">0 events</span><span>NO EXPLOIT EXECUTION</span></div>
+    </section>
+    <footer><span>ORBIT / GIT-HOSTED FOUNDATION</span><span>BUILD 0.3.0</span></footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
