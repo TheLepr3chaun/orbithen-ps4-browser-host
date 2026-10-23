@@ -33,21 +33,21 @@
       <label class="field-label" for="firmwareSelect">Select the firmware shown in PS4 Settings</label>
       <select id="firmwareSelect">
         <option value="">Choose exact firmware…</option>
-        <option value="13.02">13.02</option><option value="13.04">13.04</option>
+        <option value="13.00">13.00</option><option value="13.02">13.02</option><option value="13.04">13.04</option>
         <option value="13.50">13.50</option><option value="13.52">13.52</option>
         <option value="other">Other / not listed</option>
       </select>
-      <p class="muted small" id="firmwareHelp">Only the listed 13.xx versions are offered in this shortcut. Other versions must use a host that explicitly documents support.</p>
+      <p class="muted small" id="firmwareHelp">Only the listed firmware entries are routed automatically. Intermediate versions are not assumed compatible.</p>
       <button class="secondary" id="profileBtn">Confirm profile</button>
     </article>
 
     <article class="panel">
       <div class="card-head"><h3>02 / Relapse host</h3><span class="tag warn" id="exploitTag">MANUAL LAUNCH</span></div>
-      <div class="status-line"><span class="glyph">⌁</span><div><strong id="exploitState">External firmware-specific host</strong><p class="muted" id="exploitDetail">Open the upstream selector separately; ORBIT does not embed exploit scripts or payload binaries.</p></div></div>
-      <div class="notice"><strong>13.02 / 13.04 / 13.50 / 13.52:</strong> confirm the selected firmware and the host's own instructions before launching. Do not assume every 13.xx release is supported.</div>
-      <a class="primary" id="relapseBtn" href="https://eddieygaming.github.io/ps4aio/relapse/version-selector.html" target="_blank" rel="noopener">Open Relapse selector ↗</a>
+      <div class="status-line"><span class="glyph">⌁</span><div><strong id="exploitState">External firmware-specific host</strong><p class="muted" id="exploitDetail">ORBIT routes 13.00 to the Slopkit selector and 13.02–13.52 to Relapse. The upstream host performs the exploit and HEN selection.</p></div></div>
+      <div class="notice"><strong>13.00 uses Slopkit; 13.02 / 13.04 / 13.50 / 13.52 use Relapse:</strong> confirm the selected firmware and the host's own instructions before launching. Do not assume every 13.xx release is supported.</div>
+      <a class="primary" id="relapseBtn" href="https://eddieygaming.github.io/ps4aio/relapse/version-selector.html" target="_blank" rel="noopener">Open firmware exploit host ↗</a>
       <a class="text-link" href="https://github.com/eddieygaming/ps4aio" target="_blank" rel="noopener">Source, credits & compatibility notes ↗</a>
-      <p class="muted small">The upstream host uses its own offline cache flow. This link does not copy or replace that flow.</p>
+      <p class="muted small">The selected upstream host uses its own firmware-specific cache flow. ORBIT does not proxy or replace it.</p>
     </article>
 
     <article class="panel">
