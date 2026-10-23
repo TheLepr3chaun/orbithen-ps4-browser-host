@@ -33,9 +33,9 @@
   function detectBrowser() {
     const ua = navigator.userAgent || "";
     const isPS4 = /PlayStation 4/i.test(ua);
-    $("deviceState").textContent = isPS4 ? "PlayStation 4 browser detected" : "Non-PS4 browser detected";
-    $("deviceDetail").textContent = "Browser detection is not proof of installed firmware. Confirm 13.52 in Settings > System > System Information.";
-    $("uiState").textContent = isPS4 ? "PS4 BROWSER DETECTED" : "DASHBOARD READY";
+    if ($("deviceState")) $("deviceState").textContent = isPS4 ? "PlayStation 4 browser detected" : "Non-PS4 browser detected";
+    if ($("deviceDetail")) $("deviceDetail").textContent = "Browser detection is not proof of installed firmware. Confirm 13.52 in Settings > System > System Information.";
+    if ($("uiState")) $("uiState").textContent = isPS4 ? "PS4 BROWSER DETECTED" : "DASHBOARD READY";
     log("INFO", "ORBIT target firmware: PS4 13.52.");
     log("INFO", "Environment: " + (isPS4 ? "PS4 browser" : "other browser") + "; online: " + navigator.onLine + ".");
     if ("serviceWorker" in navigator && location.protocol !== "file:") {
@@ -46,7 +46,7 @@
 
   $("profileBtn")?.addEventListener("click", () => {
     try { localStorage.setItem("orbit-firmware-profile", targetFirmware); } catch {}
-    $("compatTag").textContent = "13.52 PROFILE";
+    if ($("compatTag")) $("compatTag").textContent = "13.52 PROFILE";
     log("INFO", "Manual firmware profile recorded as 13.52; not independently verified.");
   });
 
