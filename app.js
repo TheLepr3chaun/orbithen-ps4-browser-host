@@ -5,11 +5,11 @@
   const logNode = $("log");
   const supported = new Set(["13.00", "13.02", "13.04", "13.50", "13.52"]);
   const hosts = {
-    "13.00": "https://eddieygaming.github.io/ps4aio/slopkit/version-selector.html",
-    "13.02": "https://eddieygaming.github.io/ps4aio/relapse/version-selector.html",
-    "13.04": "https://eddieygaming.github.io/ps4aio/relapse/version-selector.html",
-    "13.50": "https://eddieygaming.github.io/ps4aio/relapse/version-selector.html",
-    "13.52": "https://eddieygaming.github.io/ps4aio/relapse/version-selector.html"
+    "13.00": "https://gamerhack.github.io/g2all/index.html",
+    "13.02": "https://gamerhack.github.io/g2all/index.html",
+    "13.04": "https://gamerhack.github.io/g2all/index.html",
+    "13.50": "https://gamerhack.github.io/g2all/index.html",
+    "13.52": "https://gamerhack.github.io/g2all/index.html"
   };
 
   function log(level, message) {
@@ -57,7 +57,7 @@
       : "Choose a listed version to record your profile. The external host must independently confirm compatibility.";
     $("firmwareHelp").textContent = valid
       ? "Selected FW " + fw + ". This is a manual selection, not automatic verification or a guarantee of exploit success."
-      : "13.00 routes to Slopkit; 13.02, 13.04, 13.50, and 13.52 route to Relapse. Intermediate versions are not assumed compatible.";
+      : "The selected versions route to GamerHack's multi-firmware host. The upstream host checks the actual browser firmware and selects its own chain.";
   }
 
   $("firmwareSelect").addEventListener("change", updateCompatibility);
@@ -79,7 +79,7 @@
       if (!proceed) event.preventDefault();
       else log("WARN", "Opened upstream selector without a confirmed ORBIT firmware profile.");
     } else {
-      log("INFO", "Opening upstream " + (fw === "13.00" ? "Slopkit" : "Relapse") + " selector for manual FW " + fw + ". The upstream host will perform its own checks.");
+      log("INFO", "Opening GamerHack multi-firmware host for manual FW " + fw + ". The upstream host detects firmware and selects its own chain.");
     }
   });
 
