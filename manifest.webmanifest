@@ -1,9 +1,9 @@
 {
-  "name": "ORBIT PS4 Browser Host",
+  "name": "ORBIT HEN Space",
   "short_name": "ORBIT",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#080d16",
   "theme_color": "#080d16",
-  "description": "ORBIT PS4 browser-host interface and diagnostics."
+  "description": "PS4 homebrew dashboard, firmware-aware host routing, and local diagnostics."
 }
