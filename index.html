@@ -42,12 +42,17 @@
     </article>
 
     <article class="panel">
-      <div class="card-head"><h3>02 / Relapse host</h3><span class="tag warn" id="exploitTag">MANUAL LAUNCH</span></div>
-      <div class="status-line"><span class="glyph">⌁</span><div><strong id="exploitState">GamerHack multi-firmware host</strong><p class="muted" id="exploitDetail">GamerHack's multi-firmware host detects the PS4 browser firmware and selects its exploit path. The exploit executes on the console; ORBIT is the launcher UI.</p></div></div>
-      <div class="notice"><strong>GamerHack multi-firmware host · 13.00–13.52 listed support:</strong> confirm the selected firmware and the host's own instructions before launching. Do not assume every 13.xx release is supported.</div>
-      <a class="primary" id="relapseBtn" href="https://gamerhack.github.io/g2all/index.html" target="_blank" rel="noopener">Launch GamerHack WebSploit ↗</a>
-      <a class="text-link" href="https://github.com/GamerHack/GamerHack.github.io" target="_blank" rel="noopener">Host source, credits & compatibility notes ↗</a>
-      <p class="muted small">The upstream host uses its own offline cache and exploit logic. ORBIT does not proxy, modify, or claim ownership of that code.</p>
+      <div class="card-head"><h3>02 / ORBIT 13.52 chain</h3><span class="tag warn" id="exploitTag">PREFLIGHT ONLY</span></div>
+      <div class="status-line"><span class="glyph">⌁</span><div><strong id="exploitState">ORBIT adapter not installed</strong><p class="muted" id="exploitDetail">This is ORBIT's own firmware-specific chain controller. No external exploit host is launched.</p></div></div>
+      <div class="notice"><strong>13.52 TARGET:</strong> preflight checks validate the browser environment and required local assets only. They do not exploit the console or prove kernel access.</div>
+      <div class="chain-list" id="chainList" aria-live="polite">
+        <div class="chain-step"><span>01</span><div><strong>Firmware profile</strong><small>Awaiting confirmation</small></div><b>WAIT</b></div>
+        <div class="chain-step"><span>02</span><div><strong>Browser capabilities</strong><small>Not checked</small></div><b>WAIT</b></div>
+        <div class="chain-step"><span>03</span><div><strong>13.52 adapter module</strong><small>Not implemented</small></div><b>BLOCKED</b></div>
+        <div class="chain-step"><span>04</span><div><strong>Kernel stage / HEN handoff</strong><small>Not implemented</small></div><b>BLOCKED</b></div>
+      </div>
+      <button class="primary" id="preflightBtn" type="button">Run ORBIT preflight</button>
+      <p class="muted small">ORBIT currently contains no WebKit exploit, kernel exploit, offsets, patches, or HEN payload. The preflight never attempts privilege escalation.</p>
     </article>
 
     <article class="panel">
@@ -89,7 +94,7 @@
       <div class="log-foot"><span id="logCount">0 events</span><span>NO EXPLOIT EXECUTION BY ORBIT</span></div>
     </article>
   </section>
-  <footer><span>ORBIT / HEN SPACE</span><span>Dashboard shell · External host integration</span></footer>
+  <footer><span>ORBIT / HEN SPACE</span><span>ORBIT 13.52 · Adapter framework</span></footer>
 </main>
 <script src="./app.js"></script>
 </body>
