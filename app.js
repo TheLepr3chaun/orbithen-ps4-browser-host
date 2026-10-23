@@ -4,9 +4,17 @@
   const entries = [];
   const logNode = $("log");
   const targetFirmware = "13.52";
+
   function firmwareToken(ua) {
-    const m = /PlayStation\s*;?\s*PlayStation\s*4[\/ ](\d{1,2}\.\d{1,2})/i.exec(ua) || /PlayStation\s+4[\/ ](\d{1,2}\.\d{1,2})/i.exec(ua);
-    return m ? m[1] : null;
+    const patterns = [
+      /PlayStation\s*;\s*PlayStation\s*4\/(\d{1,2}\.\d{1,2})/i,
+      /PlayStation\s+4[\/ ](\d{1,2}\.\d{1,2})/i
+    ];
+    for (const pattern of patterns) {
+      const match = pattern.exec(ua);
+      if (match) return match[1];
+    }
+    return null;
   }
 
   function log(level, message) {
@@ -26,85 +34,123 @@
     $("logCount").textContent = entries.length + " event" + (entries.length === 1 ? "" : "s");
   }
 
-  function setStep(index, state, detail) {
-    const row = $("chainList")?.children[index];
-    if (!row) return;
-    row.className = "chain-step " + state.toLowerCase();
-    row.querySelector("small").textContent = detail;
-    row.querySelector("b").textContent = state;
-  }
-
   function detectBrowser() {
     const ua = navigator.userAgent || "";
-    const isPS4 = /PlayStation 4/i.test(ua);
-    if ($("deviceState")) $("deviceState").textContent = isPS4 ? "PlayStation 4 browser detected" : "Non-PS4 browser detected";
-    if ($("deviceDetail")) $("deviceDetail").textContent = "Browser detection is not proof of installed firmware. Confirm 13.52 in Settings > System > System Information.";
-    if ($("uiState")) $("uiState").textContent = isPS4 ? "PS4 BROWSER DETECTED" : "DASHBOARD READY";
-    const fwToken = firmwareToken(ua);
-    if ($("consoleDetect")) $("consoleDetect").textContent = isPS4 ? "PlayStation 4" : /PlayStation 5/i.test(ua) ? "PlayStation 5" : "Not detected";
-    if ($("firmwareDetect")) $("firmwareDetect").textContent = fwToken || "Unknown — verify in Settings";
-    if ($("kernelRWState")) $("kernelRWState").textContent = "NOT VERIFIED";
-    if ($("kernelRWDetail")) $("kernelRWDetail").textContent = "No trusted read-only kernel probe is integrated";
-    log(fwToken ? "INFO" : "WARN", fwToken ? "Firmware token from user-agent: " + fwToken + "; verify it in Settings." : "No explicit firmware token found; firmware remains unknown.");
-    log("INFO", "ORBIT target firmware: PS4 13.52.");
-    log("INFO", "Environment: " + (isPS4 ? "PS4 browser" : "other browser") + "; online: " + navigator.onLine + ".");
+    const isPS4 = /PlayStation 4/i.test(ua) && !/PlayStation 5/i.test(ua);
+    const isPS5 = /PlayStation 5/i.test(ua);
+    const fw = firmwareToken(ua);
+    $("consoleDetect").textContent = isPS4 ? "PlayStation 4" : isPS5 ? "PlayStation 5" : "Not detected";
+    $("firmwareDetect").textContent = fw || "Unknown — verify in Settings";
+    $("kernelRWState").textContent = "NOT VERIFIED";
+    $("uiState").textContent = isPS4 ? "PS4 BROWSER DETECTED" : "DASHBOARD READY";
+    $("firmwareTag").textContent = fw ? "TOKEN FOUND" : "MANUAL CHECK";
+    if (fw === targetFirmware) {
+      $("firmwareTag").className = "tag";
+      log("INFO", "Browser token matches target 13.52; verify in System Information.");
+    } else {
+      $("firmwareTag").className = "tag warn";
+      log("WARN", fw ? "Browser token reports " + fw + "; target is 13.52. Verify in Settings." : "No explicit firmware token found; firmware remains unknown.");
+    }
+    log("INFO", "Console detection: " + (isPS4 ? "PS4 browser" : isPS5 ? "PS5 browser" : "not identified") + ".");
+    log("INFO", "Safe mode only: ORBIT has not executed jailbreak or kernel code.");
     if ("serviceWorker" in navigator && location.protocol !== "file:") {
-      navigator.serviceWorker.register("./sw.js").then(() => log("INFO", "Dashboard offline-shell service worker registered."))
-        .catch(() => log("WARN", "Service worker unavailable."));
+      navigator.serviceWorker.register("./sw.js")
+        .then(() => log("INFO", "Offline dashboard cache registered."))
+        .catch(() => log("WARN", "Offline cache unavailable in this browser."));
     }
   }
 
-  $("profileBtn")?.addEventListener("click", () => {
-    try { localStorage.setItem("orbit-firmware-profile", targetFirmware); } catch {}
-    if ($("compatTag")) $("compatTag").textContent = "13.52 PROFILE";
-    log("INFO", "Manual firmware profile recorded as 13.52; not independently verified.");
-  });
-
-  $("preflightBtn")?.addEventListener("click", () => {
-    log("INFO", "Safe ORBIT preflight started; no exploit code executed.");
-    const fwToken = firmwareToken(navigator.userAgent || "");
-    setStep(0, fwToken === targetFirmware ? "WARN" : "BLOCKED", fwToken === targetFirmware ? "UA token matches 13.52; verify in Settings" : "13.52 not confirmed by browser token");
-    const isPS4 = /PlayStation 4/i.test(navigator.userAgent) && !/PlayStation 5/i.test(navigator.userAgent);
-    setStep(1, isPS4 ? "WARN" : "BLOCKED", isPS4 ? "PS4 browser detected; exploit stage still absent" : "Open on the target PS4 to check browser detection");
-    setStep(2, "BLOCKED", "No trusted read-only kernel R/W probe integrated");
-    if ($("kernelRWState")) $("kernelRWState").textContent = "NOT VERIFIED";
-    log("WARN", "Normal page JavaScript cannot prove kernel R/W; no kernel memory was touched.");
-    setStep(3, "BLOCKED", "GoldHEN handoff not integrated or verified");
+  $("preflightBtn").addEventListener("click", () => {
+    const ua = navigator.userAgent || "";
+    const isPS4 = /PlayStation 4/i.test(ua) && !/PlayStation 5/i.test(ua);
+    const fw = firmwareToken(ua);
+    log("INFO", "Safe firmware check started; no exploit code executed.");
+    $("firmwareTag").textContent = fw === targetFirmware ? "TOKEN MATCH" : "CHECK SETTINGS";
+    $("firmwareTag").className = fw === targetFirmware ? "tag" : "tag warn";
     $("exploitTag").textContent = "PREFLIGHT ONLY";
-    $("exploitState").textContent = "Preflight complete; chain unavailable";
-    $("exploitDetail").textContent = "The browser and kernel stages are not integrated. No jailbreak was attempted.";
-    log("WARN", "Preflight cannot verify kernel access or GoldHEN state.");
+    $("exploitState").textContent = "Safe check complete";
+    $("exploitDetail").textContent = "No jailbreak was attempted. ORBIT's exploit stage is not integrated.";
+    $("browserStage").textContent = isPS4 ? "DETECTED ONLY" : "NOT DETECTED";
+    $("kernelStage").textContent = "UNVERIFIED";
+    $("goldhenStage").textContent = "NOT TESTED";
+    $("kernelRWState").textContent = "NOT VERIFIED";
+    $("stageProgress").style.width = "0%";
+    log(isPS4 ? "INFO" : "WARN", isPS4 ? "PS4 browser identified; this does not confirm firmware or exploit compatibility." : "This browser did not identify itself as a PS4 browser.");
+    log(fw === targetFirmware ? "INFO" : "WARN", fw === targetFirmware ? "Firmware token equals 13.52; still verify in Settings." : "Installed firmware is not confirmed as 13.52.");
+    log("WARN", "Kernel R/W remains unverified. No kernel memory was read or written.");
+    log("WARN", "GoldHEN handoff is not integrated or verified.");
   });
 
-  $("saveNotesBtn")?.addEventListener("click", () => {
-    try { localStorage.setItem("orbit-game-notes", $("gameNotes").value); log("INFO", "Notes saved locally."); }
-    catch { log("WARN", "Local storage unavailable."); }
+  function logText() {
+    return entries.map(e => e.at + " [" + e.level + "] " + e.message).join("\n");
+  }
+  $("copyBtn").addEventListener("click", async () => {
+    const content = logText();
+    try {
+      await navigator.clipboard.writeText(content);
+      log("INFO", "Copied current diagnostics snapshot.");
+    } catch {
+      window.prompt("Copy diagnostics log:", content);
+    }
   });
-  $("clearNotesBtn")?.addEventListener("click", () => {
-    if (!confirm("Clear saved local notes?")) return;
-    $("gameNotes").value = "";
-    try { localStorage.removeItem("orbit-game-notes"); } catch {}
-    log("INFO", "Local notes cleared.");
-  });
-  $("copyBtn")?.addEventListener("click", async () => {
-    const content = entries.map(e => e.at + " [" + e.level + "] " + e.message).join("\n");
-    try { await navigator.clipboard.writeText(content); log("INFO", "Copied log snapshot."); }
-    catch { prompt("Copy diagnostics:", content); }
-  });
-  $("exportBtn")?.addEventListener("click", () => {
-    const content = entries.map(e => e.at + " [" + e.level + "] " + e.message).join("\n");
-    const url = URL.createObjectURL(new Blob([content + "\n"], {type:"text/plain"}));
-    const a = document.createElement("a"); a.href = url; a.download = "orbit-diagnostics.txt"; a.click();
+  $("exportBtn").addEventListener("click", () => {
+    const blob = new Blob([logText() + "\n"], {type:"text/plain;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "orbit-diagnostics.txt";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
     URL.revokeObjectURL(url);
+    log("INFO", "Exported diagnostics text file.");
   });
-  $("clearBtn")?.addEventListener("click", () => {
+  $("clearBtn").addEventListener("click", () => {
     entries.length = 0;
-    if (logNode) logNode.replaceChildren();
+    logNode.replaceChildren();
     $("logCount").textContent = "0 events";
     log("INFO", "Log cleared.");
   });
 
-  try { $("gameNotes").value = localStorage.getItem("orbit-game-notes") || ""; } catch {}
+  function startMatrix() {
+    const canvas = $("matrixBg");
+    const ctx = canvas && canvas.getContext("2d");
+    if (!ctx || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const chars = "01アイウエオカキクケコサシスセソ";
+    let drops = [];
+    let width = 0, height = 0, frame = 0;
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drops = Array.from({length: Math.ceil(width / 20)}, () => Math.random() * (height / 18));
+    }
+    function draw() {
+      frame++;
+      if (frame % 2 === 0) {
+        ctx.fillStyle = "rgba(2, 9, 20, 0.13)";
+        ctx.fillRect(0, 0, width, height);
+        ctx.font = "12px monospace";
+        for (let i = 0; i < drops.length; i++) {
+          const ch = chars[Math.floor(Math.random() * chars.length)];
+          const y = drops[i] * 18;
+          ctx.fillStyle = i % 5 === 0 ? "#65dfff" : "#168cff";
+          ctx.fillText(ch, i * 20, y);
+          if (y > height && Math.random() > .978) drops[i] = 0;
+          drops[i] += .38;
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    resize();
+    window.addEventListener("resize", resize, {passive:true});
+    draw();
+  }
+
   detectBrowser();
-  log("WARN", "ORBIT is a dashboard/preflight only; no exploit or GoldHEN payload is bundled.");
+  log("INFO", "ORBIT dashboard ready. Firmware check, jailbreak status, and log are available.");
+  startMatrix();
 })();
