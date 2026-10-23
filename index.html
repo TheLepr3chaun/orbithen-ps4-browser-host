@@ -28,38 +28,17 @@
 
   <section class="grid">
     <article class="panel">
-      <div class="card-head"><h3>01 / Console profile</h3><span class="tag" id="compatTag">MANUAL CHECK</span></div>
-      <div class="status-line"><span class="glyph">◇</span><div><strong id="deviceState">Checking browser environment</strong><p class="muted" id="deviceDetail">Firmware cannot be reliably confirmed by this dashboard.</p></div></div>
-      <label class="field-label" for="firmwareSelect">Select the firmware shown in PS4 Settings</label>
-      <select id="firmwareSelect">
-        <option value="">Choose exact firmware…</option>
-        <option value="13.00">13.00</option><option value="13.02">13.02</option><option value="13.04">13.04</option>
-        <option value="13.50">13.50</option><option value="13.52">13.52</option>
-        <option value="other">Other / not listed</option>
-      </select>
-      <p class="muted small" id="firmwareHelp">Only the listed firmware entries are routed automatically. Intermediate versions are not assumed compatible.</p>
-      <button class="secondary" id="profileBtn">Confirm profile</button>
-    </article>
-
-    <article class="panel">
-      <div class="card-head"><h3>02 / ORBIT 13.52 chain</h3><span class="tag warn" id="exploitTag">PREFLIGHT ONLY</span></div>
-      <div class="status-line"><span class="glyph">⌁</span><div><strong id="exploitState">ORBIT adapter not installed</strong><p class="muted" id="exploitDetail">This is ORBIT's own firmware-specific chain controller. No external exploit host is launched.</p></div></div>
-      <div class="notice"><strong>13.52 TARGET:</strong> preflight checks validate the browser environment and required local assets only. They do not exploit the console or prove kernel access.</div>
-      <div class="chain-list" id="chainList" aria-live="polite">
-        <div class="chain-step"><span>01</span><div><strong>Firmware profile</strong><small>Awaiting confirmation</small></div><b>WAIT</b></div>
-        <div class="chain-step"><span>02</span><div><strong>Browser capabilities</strong><small>Not checked</small></div><b>WAIT</b></div>
-        <div class="chain-step"><span>03</span><div><strong>13.52 adapter module</strong><small>Not implemented</small></div><b>BLOCKED</b></div>
-        <div class="chain-step"><span>04</span><div><strong>Kernel stage / HEN handoff</strong><small>Not implemented</small></div><b>BLOCKED</b></div>
+      <div class="card-head"><h3>02 / ORBIT 13.52 chain</h3><span class="tag warn" id="exploitTag">NOT INTEGRATED</span></div>
+      <div class="status-line"><span class="glyph">⌁</span><div><strong id="exploitState">Exploit stage not integrated</strong><p class="muted" id="exploitDetail">ORBIT does not yet execute a 13.52 browser or kernel stage.</p></div></div>
+      <div class="notice"><strong>GOLDHEN HANDOFF:</strong> GoldHEN is the HEN payload stage, not the browser exploit. Compatibility and successful loading must be verified separately.</div>
+      <div class="chain-list" id="chainList">
+        <div class="chain-step"><span>01</span><div><strong>Firmware profile</strong><small>Target is 13.52</small></div><b>WAIT</b></div>
+        <div class="chain-step"><span>02</span><div><strong>Browser stage</strong><small>Not integrated</small></div><b>BLOCKED</b></div>
+        <div class="chain-step"><span>03</span><div><strong>Kernel stage</strong><small>Not integrated</small></div><b>BLOCKED</b></div>
+        <div class="chain-step"><span>04</span><div><strong>GoldHEN handoff</strong><small>Not tested by ORBIT</small></div><b>BLOCKED</b></div>
       </div>
-      <button class="primary" id="preflightBtn" type="button">Run ORBIT preflight</button>
-      <p class="muted small">ORBIT currently contains no WebKit exploit, kernel exploit, offsets, patches, or HEN payload. The preflight never attempts privilege escalation.</p>
-    </article>
-
-    <article class="panel">
-      <div class="card-head"><h3>03 / HEN & homebrew</h3><span class="tag warn">NOT VERIFIED</span></div>
-      <div class="status-line"><span class="glyph">▣</span><div><strong id="henState">HEN state unknown</strong><p class="muted">A normal web page cannot reliably query kernel HEN state. Only trust the target host's own success output and supported console-side tools.</p></div></div>
-      <div class="tool-link"><div><strong>PS4 homebrew guide</strong><p class="muted">General setup and troubleshooting.</p></div><a href="https://consolemods.org/wiki/PS4" target="_blank" rel="noopener">Open ↗</a></div>
-      <div class="tool-link"><div><strong>GoldHEN project</strong><p class="muted">Review supported versions and release notes.</p></div><a href="https://github.com/GoldHEN/GoldHEN" target="_blank" rel="noopener">Open ↗</a></div>
+      <button class="primary" id="preflightBtn" type="button">Run safe preflight</button>
+      <p class="muted small">Preflight checks the page environment only; it does not attempt privilege escalation.</p>
     </article>
 
     <article class="panel">
