@@ -1,38 +1,30 @@
-# ORBIT PS4 Browser Host
+# ORBIT // HEN SPACE
 
-A GitHub Pages-ready static site for the ORBIT project. It provides a dark dashboard, a manual PS4 13.52 profile, and local diagnostic logs.
+GitHub Pages-ready dashboard shell for PS4 homebrew workflows.
 
-## Scope and status
+## Features
+- Controller-friendly dark dashboard UI.
+- Manual firmware profile for the upstream Relapse host's documented 13.02, 13.04, 13.50, and 13.52 options.
+- Direct link to the upstream PS4 AIO Relapse selector; exploit pages remain external and retain their own cache flow.
+- HEN status disclaimer and homebrew/GoldHEN references.
+- PKG installation checklist.
+- Local game/cheat compatibility notes saved in browser localStorage.
+- Diagnostics log, copy/export controls, and a service-worker cache for the dashboard shell.
 
-**Included:** HTML/CSS/JavaScript UI, browser diagnostics, copy/clear logs, responsive styling, Pages deployment workflow.
+## Important limits
+This repository does **not** bundle or execute a WebKit exploit, kernel exploit, firmware offsets, kernel patches, GoldHEN/HEN binaries, PKG installer, or cheat payload. A static web page cannot independently verify kernel HEN state, install PKG files, or inject cheats. Those operations require compatible console-side tools and firmware-specific payloads.
 
-**Not included:** WebKit exploit, kernel exploit, privilege escalation, kernel patches, HEN payload, or a working jailbreak. The firmware profile is a label, not firmware detection. A static GitHub Pages site alone cannot activate HEN.
+The Relapse link opens the separately maintained upstream host: https://github.com/eddieygaming/ps4aio. Its README documents a Slopkit Relapse flow for 13.02–13.52, with specific firmware entries and a host-specific AppCache flow. Do not assume every 13.xx release is supported. Review upstream source, licensing, credits, and instructions before use.
 
-This project is a frontend foundation. Do not report exploit success or HEN-active status based on the page loading.
-
-## Publish with GitHub Pages
-
-1. Create a new GitHub repository, for example `orbit-ps4-browser-host`.
-2. Upload the files from this project to the repository root, including `.github/workflows/pages.yml`.
-3. In GitHub, open **Settings → Pages** and set **Build and deployment → Source** to **GitHub Actions**.
-4. Push to the default branch. The included workflow deploys the static site.
-5. Open the published URL shown under **Settings → Pages** on a desktop browser first; then test the interface on the PS4 browser.
-
-No GitHub token or credentials should be embedded in the source files.
+## Deploy
+1. Commit the repository contents to the default branch.
+2. In GitHub, open **Settings → Pages** and choose **GitHub Actions** if the existing workflow is configured for Pages deployment.
+3. Wait for the deployment workflow to finish, then open the Pages URL.
+4. Test the dashboard UI in a desktop browser, then test navigation and caching on the console.
+5. Open the Relapse host separately; this dashboard does not proxy or replace its firmware-specific cache manifest.
 
 ## Local preview
+Run `python3 -m http.server 8000` in the project root and open `http://localhost:8000`. Service workers generally require HTTPS or localhost.
 
-Run in the project root:
-
-```bash
-python3 -m http.server 8000
-```
-
-Then visit `http://localhost:8000`.
-
-## Suggested next milestones
-
-1. Confirm the Pages deployment and PS4 browser compatibility.
-2. Add a real, documented status adapter for a supported local homebrew service, with explicit timeouts and errors.
-3. Keep any firmware-specific exploit research separate from the public frontend and document exact target firmware, source provenance, license, and test evidence.
-4. Test on hardware before claiming compatibility.
+## Credits
+ORBIT is an independent frontend project. Upstream Relapse/PS4 AIO code remains in its own repository and retains its own license and attribution. No Sony affiliation is implied.
