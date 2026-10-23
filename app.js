@@ -3,7 +3,14 @@
   const $ = id => document.getElementById(id);
   const entries = [];
   const logNode = $("log");
-  const supported = new Set(["13.02", "13.04", "13.50", "13.52"]);
+  const supported = new Set(["13.00", "13.02", "13.04", "13.50", "13.52"]);
+  const hosts = {
+    "13.00": "https://eddieygaming.github.io/ps4aio/slopkit/version-selector.html",
+    "13.02": "https://eddieygaming.github.io/ps4aio/relapse/version-selector.html",
+    "13.04": "https://eddieygaming.github.io/ps4aio/relapse/version-selector.html",
+    "13.50": "https://eddieygaming.github.io/ps4aio/relapse/version-selector.html",
+    "13.52": "https://eddieygaming.github.io/ps4aio/relapse/version-selector.html"
+  };
 
   function log(level, message) {
     const entry = { at: new Date().toISOString(), level, message: String(message) };
@@ -41,6 +48,7 @@
   function updateCompatibility() {
     const fw = $("firmwareSelect").value;
     const valid = supported.has(fw);
+    $("relapseBtn").href = hosts[fw] || "https://github.com/eddieygaming/ps4aio";
     $("compatTag").textContent = valid ? "LISTED VERSION" : (fw === "other" ? "NOT LISTED" : "MANUAL CHECK");
     $("compatTag").className = "tag" + (valid ? "" : " warn");
     $("exploitTag").textContent = valid ? "READY TO OPEN" : "CHECK FIRMWARE";
@@ -49,7 +57,7 @@
       : "Choose a listed version to record your profile. The external host must independently confirm compatibility.";
     $("firmwareHelp").textContent = valid
       ? "Selected FW " + fw + ". This is a manual selection, not automatic verification or a guarantee of exploit success."
-      : "Only 13.02, 13.04, 13.50, and 13.52 are listed here. For other versions, use a host that explicitly documents support.";
+      : "13.00 routes to Slopkit; 13.02, 13.04, 13.50, and 13.52 route to Relapse. Intermediate versions are not assumed compatible.";
   }
 
   $("firmwareSelect").addEventListener("change", updateCompatibility);
@@ -71,7 +79,7 @@
       if (!proceed) event.preventDefault();
       else log("WARN", "Opened upstream selector without a confirmed ORBIT firmware profile.");
     } else {
-      log("INFO", "Opening upstream Relapse selector for manual FW " + fw + ". The upstream host will perform its own checks.");
+      log("INFO", "Opening upstream " + (fw === "13.00" ? "Slopkit" : "Relapse") + " selector for manual FW " + fw + ". The upstream host will perform its own checks.");
     }
   });
 
