@@ -18,7 +18,7 @@
 
   <section class="hero panel">
     <div class="hero-copy">
-      <p class="eyebrow">PROJECT ORBIT · BUILD 0.3.0</p>
+      <p class="eyebrow">PROJECT ORBIT · 13.52</p>
       <h2>Console <span>control.</span></h2>
       <p class="muted">A controller-friendly dashboard for firmware-aware jailbreak routing, homebrew workflows, game notes, and diagnostics.</p>
       <div class="notice"><strong>IMPORTANT:</strong> ORBIT is the dashboard, not the exploit itself. The Relapse host runs separately and must match your console's exact firmware. Browser detection is only a hint; verify the version in PS4 Settings.</div>
@@ -39,32 +39,6 @@
       </div>
       <button class="primary" id="preflightBtn" type="button">Run safe preflight</button>
       <p class="muted small">Preflight checks the page environment only; it does not attempt privilege escalation.</p>
-    </article>
-
-    <article class="panel">
-      <div class="card-head"><h3>04 / PKG workflow</h3><span class="tag">GUIDED</span></div>
-      <p class="muted">Package installation must be performed by a compatible console-side installer after HEN is active. This dashboard cannot install PKGs itself.</p>
-      <ol class="checklist">
-        <li>Confirm HEN loaded successfully on the target host.</li>
-        <li>Use PKG files you own or are authorized to use.</li>
-        <li>Transfer with a supported USB or network workflow.</li>
-        <li>Install with a compatible console-side package tool.</li>
-      </ol>
-      <a class="text-link" href="https://consolemods.org/wiki/PS4" target="_blank" rel="noopener">Read PS4 documentation ↗</a>
-    </article>
-
-    <article class="panel wide">
-      <div class="card-head"><h3>05 / Cheats & game compatibility</h3><span class="tag warn">PAYLOAD-DEPENDENT</span></div>
-      <p class="muted">Cheats depend on the exact game title ID, region, update version, firmware, and compatible tool. ORBIT does not inject cheats or patch game memory.</p>
-      <div class="three">
-        <div class="mini-card"><span class="glyph">⌘</span><strong>Identify the game</strong><p class="muted">Record title ID, region, and installed update.</p></div>
-        <div class="mini-card"><span class="glyph">◇</span><strong>Match the payload</strong><p class="muted">Use a tool explicitly compatible with your HEN and firmware.</p></div>
-        <div class="mini-card"><span class="glyph">▤</span><strong>Protect saves</strong><p class="muted">Back up saves before testing modifications.</p></div>
-      </div>
-      <label class="field-label" for="gameNotes">Local game / compatibility notes</label>
-      <textarea id="gameNotes" rows="4" placeholder="Title ID (CUSA…), region, game update, cheat source, payload version, test notes…"></textarea>
-      <div class="actions"><button class="tiny" id="saveNotesBtn">Save notes</button><button class="tiny" id="clearNotesBtn">Clear notes</button></div>
-      <p class="muted small">Notes are stored locally in this browser on this device; they are not uploaded.</p>
     </article>
 
     <article class="panel wide log-panel">
