@@ -3,25 +3,26 @@
 Independent PS4 homebrew dashboard focused on firmware 13.52.
 
 ## Current status
-- Lightweight dashboard and local diagnostics.
-- Target firmware: **13.52 only**.
-- GoldHEN is treated as the HEN payload stage, not as the browser exploit.
-- No exploit chain is currently integrated or verified by ORBIT.
+- Minimal dashboard and local diagnostics.
+- Parses an explicit PS4 firmware token from `navigator.userAgent` when available; otherwise displays unknown.
+- User-agent detection is advisory only. Confirm the installed firmware in **Settings → System → System Information**.
+- Kernel R/W is **not verified**. The dashboard does not probe or write kernel memory.
+- No exploit chain or GoldHEN handoff is integrated or verified by ORBIT.
 
-## GoldHEN compatibility note
-Public community documentation reports GoldHEN v2.4b18.11 as the build used for PS4 firmware 13.52. Treat this as a compatibility lead to verify against the official GoldHEN project and the specific host implementation, not as proof that ORBIT can load it. See [GoldHEN releases](https://github.com/GoldHEN/GoldHEN/releases) and [PS4 AIO compatibility notes](https://github.com/eddieygaming/ps4aio).
+## Why kernel R/W stays unverified
+Ordinary page JavaScript cannot establish kernel read/write privileges. A user-agent token identifies browser-reported metadata, not exploit success. ORBIT's preflight is deliberately read-only to reduce risk while testing the UI.
+
+## GoldHEN
+GoldHEN is the HEN payload stage, not the browser exploit or kernel stage. Verify firmware compatibility and release details through the [official GoldHEN releases](https://github.com/GoldHEN/GoldHEN/releases) before integration.
 
 ## Development plan
-1. Keep the site focused on 13.52 and remove external exploit-host redirects.
-2. Implement clear preflight and stage reporting before integrating any chain.
-3. Track the source, license, hashes, and firmware evidence for each component.
-4. Verify each stage on hardware and only report GoldHEN as loaded when the console confirms it.
-
-## Safety and scope
-This repository does not currently include a WebKit exploit, kernel exploit, firmware offsets, kernel patches, or a GoldHEN binary. A static dashboard cannot independently prove kernel access or HEN state. Kernel experiments can crash a console; back up saves before testing unverified components.
+1. Validate firmware detection against real PS4 browser user-agent strings.
+2. Track source, license, and hashes for each documented 13.52-compatible component.
+3. Keep browser-stage, kernel-stage, and GoldHEN handoff results separate.
+4. Test components individually on hardware; back up saves before unverified kernel experiments.
 
 ## Deploy
-Enable GitHub Pages for the repository's configured workflow, then test the deployed dashboard in a desktop browser and on the target console.
+Enable GitHub Pages for the repository's configured workflow. The dashboard preflight does not execute an exploit.
 
 ## Local preview
 Run `python3 -m http.server 8000` in the repository root and open `http://localhost:8000`.
