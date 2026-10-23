@@ -3,51 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#080d16">
-  <meta name="description" content="ORBIT HEN Space: PS4 homebrew dashboard, firmware-aware host routing, and diagnostics.">
+  <meta name="theme-color" content="#041326">
+  <meta name="description" content="ORBIT HEN SPACE — PS4 firmware check, jailbreak status window, and diagnostics log.">
   <title>ORBIT // HEN SPACE</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+<canvas id="matrixBg" aria-hidden="true"></canvas>
 <main class="shell">
   <header class="topbar">
-    <a class="brand" href="./"><div class="mark">O</div><div><p class="eyebrow">PS4 HOMEBREW CONTROL CENTER</p><h1>ORBIT <span>HEN SPACE</span></h1></div></a>
+    <a class="brand" href="./" aria-label="ORBIT HEN SPACE home"><div class="mark">O</div><div><p class="eyebrow">PS4 HOMEbrew TOOLKIT</p><h1>ORBIT <span>HEN SPACE</span></h1></div></a>
     <div class="pill"><i class="dot"></i><span id="uiState">DASHBOARD READY</span></div>
   </header>
 
   <section class="hero panel">
     <div class="hero-copy">
-      <p class="eyebrow">PROJECT ORBIT · 13.52</p>
-      <h2>Console <span>control.</span></h2>
-      <p class="muted">A lightweight firmware-aware dashboard and preflight diagnostics for PS4 13.52.</p>
-      <div class="notice"><strong>IMPORTANT:</strong> ORBIT is the dashboard, not the exploit itself. The Relapse host runs separately and must match your console's exact firmware. Browser detection is only a hint; verify the version in PS4 Settings.</div>
+      <p class="eyebrow">PROJECT ORBIT · BLUE MATRIX</p>
+      <h2>Stay in <span>control.</span></h2>
+      <p class="muted">A focused PS4 firmware check, jailbreak status window, and readable diagnostics log.</p>
+      <p class="notice"><strong>SAFETY NOTE:</strong> Browser detection is only a hint. Confirm your firmware in Settings → System → System Information. This dashboard does not itself jailbreak the console.</p>
     </div>
-    <div class="ring-wrap" aria-hidden="true"><div class="ring"><div class="ring-core">ORBIT<small>HEN SPACE</small></div></div></div>
+    <div class="orb" aria-hidden="true"><span>ORBIT</span><small>HEN SPACE</small></div>
   </section>
 
   <section class="grid">
     <article class="panel">
-      <div class="card-head"><h3>02 / ORBIT 13.52 chain</h3><span class="tag warn" id="exploitTag">NOT INTEGRATED</span></div><div class="detection-box"><div><span class="field-label">Detected console</span><strong id="consoleDetect">Checking…</strong></div><div><span class="field-label">Firmware from browser</span><strong id="firmwareDetect">Unknown</strong></div><div><span class="field-label">Kernel R/W</span><strong id="kernelRWState">NOT VERIFIED</strong></div></div>
-      <div class="status-line"><span class="glyph">⌁</span><div><strong id="exploitState">Exploit stage not integrated</strong><p class="muted" id="exploitDetail">ORBIT does not yet execute a 13.52 browser or kernel stage.</p></div></div>
-      <div class="notice"><strong>GOLDHEN HANDOFF:</strong> GoldHEN is the HEN payload stage, not the browser exploit. Compatibility and successful loading must be verified separately.</div>
-      <div class="chain-list" id="chainList">
-        <div class="chain-step"><span>01</span><div><strong>Firmware profile</strong><small>Target is 13.52</small></div><b>WAIT</b></div>
-        <div class="chain-step"><span>02</span><div><strong>Browser stage</strong><small>Not integrated</small></div><b>BLOCKED</b></div>
-        <div class="chain-step"><span>03</span><div><strong>Kernel R/W probe</strong><small id="kernelRWDetail">No verified read-only probe is installed</small></div><b>UNVERIFIED</b></div>
-        <div class="chain-step"><span>04</span><div><strong>GoldHEN handoff</strong><small>Not tested by ORBIT</small></div><b>BLOCKED</b></div>
-      </div>
-      <button class="primary" id="preflightBtn" type="button">Run safe preflight</button>
-      <p class="muted small">Preflight is read-only. It does not attempt kernel access or write memory.</p>
+      <div class="card-head"><div><p class="eyebrow">01 / DEVICE</p><h3>Firmware check</h3></div><span class="tag" id="firmwareTag">CHECKING</span></div>
+      <div class="readout"><span>Console</span><strong id="consoleDetect">Checking browser…</strong></div>
+      <div class="readout"><span>Browser firmware token</span><strong id="firmwareDetect">Unknown</strong></div>
+      <div class="readout"><span>Kernel R/W</span><strong id="kernelRWState" class="warn-text">NOT VERIFIED</strong></div>
+      <p class="muted small">A user-agent token may be missing or inaccurate. Verify the installed version on the console itself.</p>
+      <button class="secondary" id="preflightBtn" type="button">Run safe check</button>
     </article>
 
-    <article class="panel wide log-panel">
-      <div class="card-head"><div><p class="eyebrow">LOCAL DIAGNOSTICS</p><h3>Event log</h3></div><div class="actions"><button class="tiny" id="copyBtn">Copy</button><button class="tiny" id="exportBtn">Export</button><button class="tiny" id="clearBtn">Clear</button></div></div>
-      <div class="log" id="log" role="log" aria-live="polite"></div>
-      <div class="log-foot"><span id="logCount">0 events</span><span>NO EXPLOIT EXECUTION BY ORBIT</span></div>
+    <article class="panel jailbreak">
+      <div class="card-head"><div><p class="eyebrow">02 / JAILBREAK</p><h3>Jailbreak window</h3></div><span class="tag warn" id="exploitTag">NOT CONNECTED</span></div>
+      <div class="jailbreak-state"><div class="state-icon" aria-hidden="true">⌁</div><div><strong id="exploitState">Exploit stage not integrated</strong><p id="exploitDetail" class="muted">ORBIT currently provides the dashboard and preflight checks only.</p></div></div>
+      <div class="progress-track"><span id="stageProgress"></span></div>
+      <div class="stage-row"><span>Browser stage</span><b id="browserStage">NOT RUN</b></div>
+      <div class="stage-row"><span>Kernel R/W</span><b id="kernelStage">UNVERIFIED</b></div>
+      <div class="stage-row"><span>GoldHEN handoff</span><b id="goldhenStage">NOT TESTED</b></div>
+      <p class="notice"><strong>NO EXPLOIT EXECUTED.</strong> No kernel memory is accessed by the safe check. Status will not show success unless a compatible stage is genuinely integrated and verified.</p>
+    </article>
+
+    <article class="panel log-panel">
+      <div class="card-head"><div><p class="eyebrow">03 / DIAGNOSTICS</p><h3>Working log</h3></div><div class="actions"><button class="tiny" id="copyBtn" type="button">Copy</button><button class="tiny" id="exportBtn" type="button">Export</button><button class="tiny" id="clearBtn" type="button">Clear</button></div></div>
+      <div class="log" id="log" role="log" aria-live="polite" aria-label="ORBIT diagnostics events"></div>
+      <div class="log-foot"><span id="logCount">0 events</span><span>LOCAL DIAGNOSTICS</span></div>
     </article>
   </section>
-  <footer><span>ORBIT / HEN SPACE</span><span>ORBIT 13.52 · Adapter framework</span></footer>
+  <footer><span>ORBIT / HEN SPACE</span><span>Blue Matrix UI · Reduced-motion friendly</span></footer>
 </main>
 <script src="./app.js"></script>
 </body>
