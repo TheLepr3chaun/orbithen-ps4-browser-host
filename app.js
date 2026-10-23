@@ -5,7 +5,7 @@
   const logNode = $("log");
   const targetFirmware = "13.52";
   function firmwareToken(ua) {
-    const m = /PlayStation\s*;?\s*PlayStation\s*4[\/ ](\\d{1,2}\\.\\d{1,2})/i.exec(ua) || /PlayStation\s+4[\/ ](\\d{1,2}\\.\\d{1,2})/i.exec(ua);
+    const m = /PlayStation\s*;?\s*PlayStation\s*4[\/ ](\d{1,2}\.\d{1,2})/i.exec(ua) || /PlayStation\s+4[\/ ](\d{1,2}\.\d{1,2})/i.exec(ua);
     return m ? m[1] : null;
   }
 
