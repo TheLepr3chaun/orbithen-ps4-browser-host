@@ -7,7 +7,7 @@
   <meta name="description" content="ORBIT HEN SPACE — PS4 firmware check, jailbreak status window, and diagnostics log.">
   <title>ORBIT // HEN SPACE</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=051">
+  <link rel="stylesheet" href="./styles.css?v=052">
 </head>
 <body>
 <canvas id="matrixBg" aria-hidden="true"></canvas>
@@ -40,6 +40,7 @@
         <p class="eyebrow">LOCAL COMPATIBILITY</p>
         <div class="readout"><span>Secure context</span><strong id="secureContextState">CHECKING</strong></div>
         <div class="readout"><span>Service worker</span><strong id="serviceWorkerState">CHECKING</strong></div>
+        <p class="muted small">The PS4 Internet Browser does not support Service Workers, so this dashboard cannot use its service-worker offline cache on PS4. Offline support on other browsers may differ.</p>
         <div class="readout"><span>Required browser APIs</span><strong id="requiredApisState">CHECKING</strong></div>
         <label class="firmware-label" for="manualFirmware">Installed firmware (from Settings)</label>
         <div class="firmware-form">
@@ -70,6 +71,6 @@
   </section>
   <footer><span>ORBIT / HEN SPACE</span><span>Blue Matrix UI · Reduced-motion friendly</span></footer>
 </main>
-<script src="./app.js?v=051"></script>
+<script src="./app.js?v=052"></script>
 </body>
 </html>
