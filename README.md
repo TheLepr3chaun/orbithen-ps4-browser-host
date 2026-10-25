@@ -28,15 +28,10 @@ Enable GitHub Pages for the repository's configured workflow. The dashboard pref
 Run `python3 -m http.server 8000` in the repository root and open `http://localhost:8000`.
 
 
-## Raw13G firmware 13.02–13.52 bridge
+## Slopkit 13.xx host bridge
 
-ORBIT now provides a user-triggered link to the official [Raw13G host](https://raw13g.github.io/), the upstream browser-exploit host documented for PS4 firmware 13.02–13.52. The link opens the upstream site in a separate tab; ORBIT itself does **not** execute the exploit chain, claim kernel access, or verify GoldHEN handoff.
+ORBIT's jailbreak panel now links to [WebKitty](https://github.com/ArabPixel/WebKitty), whose published firmware matrix lists the Slopkit + Relapse flow for PS4 firmware 13.02–13.52. The live host is [webkitty.arabpixel.net](https://webkitty.arabpixel.net/).
 
-### Source and license boundary
+This is a **host bridge**, not a local exploit implementation: ORBIT opens the external host and logs that action, but it does not execute Slopkit, access kernel memory, or verify a HEN payload. The external project's own code, payloads, compatibility, and license terms remain separate; no RawGame source or exploit files are copied into ORBIT.
 
-- Upstream project: [raw13g/raw13g.github.io](https://github.com/raw13g/raw13g.github.io)
-- Upstream license: [LICENSE](https://github.com/raw13g/raw13g.github.io/blob/main/LICENSE)
-- The upstream license says its MIT grant applies to code authored by raw13g, but explicitly excludes bundled third-party components such as `core.js`, `mem.js`, `int64.js`, payload binaries, and kernel patch blobs. ORBIT therefore does not copy or redistribute those excluded components without verifying their separate permissions.
-- The link is a bridge to the original upstream host, not a locally integrated or independently verified exploit implementation.
-
-The firmware range and exploit availability can change. Confirm the exact installed firmware and consult the upstream project before use.
+For a true self-hosted integration, review the full upstream source tree, individual third-party licenses, firmware-specific cache manifests, and payload compatibility before importing any files. Keep browser-stage, kernel-stage, and HEN handoff status distinct, and never infer success from the firmware token alone.
