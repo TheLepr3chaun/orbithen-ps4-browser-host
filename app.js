@@ -134,8 +134,8 @@
     }
   }
 
-  const assetCheckButton = $("assetCheckBtn");
-  if (assetCheckButton) assetCheckButton.addEventListener("click", checkDashboardAssets);
+  // Expose a direct entry point for the diagnostics button in index.html.
+  window.orbitCheckFiles = checkDashboardAssets;
 
   function logText() {
     return entries.map(e => e.at + " [" + e.level + "] " + e.message).join("\n");
