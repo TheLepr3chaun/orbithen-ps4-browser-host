@@ -105,7 +105,7 @@
       log("WARN", "Firmware compatibility evaluation skipped: no manual version entered.");
       return;
     }
-    if (!/^\\d{1,2}\\.\\d{1,2}$/.test(reported)) {
+    if (!/^\d{1,2}\.\d{1,2}$/.test(reported)) {
       result.textContent = "Version format not recognized. Enter a version such as 13.52; this does not verify it.";
       log("WARN", "Manual firmware entry format not recognized: " + reported + ".");
       return;
