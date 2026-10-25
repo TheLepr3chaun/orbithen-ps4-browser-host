@@ -89,6 +89,53 @@
     });
   }
 
+  async function checkDashboardAssets() {
+    const checks = [
+      { path: "./index.html", kind: "html" },
+      { path: "./styles.css?v=045", kind: "css" },
+      { path: "./app.js?v=045", kind: "js" },
+      { path: "./sw.js", kind: "js" },
+      { path: "./manifest.webmanifest", kind: "json" }
+    ];
+    const button = $("assetCheckBtn");
+    if (button) button.disabled = true;
+    log("INFO", "Dashboard asset check started. This checks HTTP responses, not jailbreak functionality.");
+    let failures = 0;
+    try {
+      for (const item of checks) {
+        try {
+          const response = await fetch(item.path, { method: "GET", cache: "no-store" });
+          const body = await response.text();
+          const contentType = (response.headers.get("content-type") || "").toLowerCase();
+          const looksLikeHtml = /^(?:\\uFEFF)?\\s*(?:<!doctype\\s+html|<html\\b)/i.test(body);
+          const expectedHtml = item.kind === "html";
+          const expectedType = item.kind === "css" ? /text\\/css/ :
+            item.kind === "js" ? /(?:javascript|ecmascript)/ :
+            item.kind === "json" ? /(?:json|manifest\\+json)/ : /text\\/html/;
+          let problem = "";
+          if (!response.ok) problem = "HTTP " + response.status;
+          else if (!expectedHtml && looksLikeHtml) problem = "received HTML instead of " + item.kind;
+          else if (contentType && !expectedType.test(contentType)) problem = "unexpected content type: " + contentType;
+          if (problem) {
+            failures++;
+            log("ERROR", item.path + " — " + problem + ".");
+          } else {
+            log("INFO", item.path + " — HTTP " + response.status + ", response type looks appropriate.");
+          }
+        } catch (error) {
+          failures++;
+          log("ERROR", item.path + " — request failed (" + (error && error.message ? error.message : "network error") + ").");
+        }
+      }
+    } finally {
+      log(failures ? "WARN" : "INFO", "Asset check finished: " + failures + " issue" + (failures === 1 ? "" : "s") + " found. Browser/service-worker caching can affect results.");
+      if (button) button.disabled = false;
+    }
+  }
+
+  const assetCheckButton = $("assetCheckBtn");
+  if (assetCheckButton) assetCheckButton.addEventListener("click", checkDashboardAssets);
+
   function logText() {
     return entries.map(e => e.at + " [" + e.level + "] " + e.message).join("\n");
   }
