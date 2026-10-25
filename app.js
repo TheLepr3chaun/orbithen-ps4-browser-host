@@ -53,12 +53,74 @@
     }
     log("INFO", "Console detection: " + (isPS4 ? "PS4 browser" : isPS5 ? "PS5 browser" : "not identified") + ".");
     log("INFO", "Safe mode only: ORBIT has not executed jailbreak or kernel code.");
+    updateCompatibilityDiagnostics();
     if ("serviceWorker" in navigator && location.protocol !== "file:") {
       navigator.serviceWorker.register("./sw.js")
-        .then(() => log("INFO", "Offline dashboard cache registered."))
-        .catch(() => log("WARN", "Offline cache unavailable in this browser."));
+        .then(registration => {
+          log("INFO", "Offline dashboard cache registered.");
+          updateServiceWorkerState(registration);
+        })
+        .catch(error => {
+          log("WARN", "Offline cache registration failed: " + (error && error.message ? error.message : "unknown error") + ".");
+          updateServiceWorkerState(null);
+        });
+      navigator.serviceWorker.addEventListener("controllerchange", updateCompatibilityDiagnostics);
     }
   }
+
+  function updateServiceWorkerState(registration) {
+    const node = $("serviceWorkerState");
+    if (!node) return;
+    if (!("serviceWorker" in navigator)) { node.textContent = "UNSUPPORTED"; return; }
+    const worker = registration && (registration.active || registration.waiting || registration.installing);
+    if (worker) { node.textContent = worker.state === "activated" ? "ACTIVE" : worker.state.toUpperCase(); return; }
+    navigator.serviceWorker.getRegistration("./").then(found => {
+      const current = found && (found.active || found.waiting || found.installing);
+      node.textContent = current ? (current.state === "activated" ? "ACTIVE" : current.state.toUpperCase()) : "REGISTERING / UNKNOWN";
+    }).catch(() => { node.textContent = "STATUS UNAVAILABLE"; });
+  }
+
+  function updateCompatibilityDiagnostics() {
+    const secureNode = $("secureContextState");
+    const apiNode = $("requiredApisState");
+    if (secureNode) secureNode.textContent = window.isSecureContext ? "YES" : "NO";
+    const apiReady = typeof fetch === "function" && typeof Promise === "function" && typeof URL === "function" && !!document.createElement("canvas").getContext;
+    if (apiNode) apiNode.textContent = apiReady ? "AVAILABLE" : "LIMITED";
+    if (!("serviceWorker" in navigator)) {
+      if ($("serviceWorkerState")) $("serviceWorkerState").textContent = "UNSUPPORTED";
+    } else if (navigator.serviceWorker.controller) {
+      if ($("serviceWorkerState")) $("serviceWorkerState").textContent = "ACTIVE";
+    } else if ($("serviceWorkerState") && $("serviceWorkerState").textContent === "CHECKING") {
+      $("serviceWorkerState").textContent = "REGISTERING";
+    }
+  }
+
+  function evaluateManualFirmware() {
+    const input = $("manualFirmware");
+    const result = $("compatibilityResult");
+    if (!input || !result) return;
+    const reported = input.value.trim();
+    if (!reported) {
+      result.textContent = "Enter the exact version shown in Settings → System → System Information.";
+      log("WARN", "Firmware compatibility evaluation skipped: no manual version entered.");
+      return;
+    }
+    if (!/^\\d{1,2}\\.\\d{1,2}$/.test(reported)) {
+      result.textContent = "Version format not recognized. Enter a version such as 13.52; this does not verify it.";
+      log("WARN", "Manual firmware entry format not recognized: " + reported + ".");
+      return;
+    }
+    if (reported === targetFirmware) {
+      result.textContent = "Reported version matches ORBIT target 13.52. This is a manual report, not a browser-verified firmware reading or proof of exploit compatibility.";
+      log("INFO", "Manual firmware entry matches target 13.52; value was not independently verified.");
+    } else {
+      result.textContent = "Reported version does not match ORBIT target 13.52. No compatibility claim is made.";
+      log("WARN", "Manual firmware entry " + reported + " does not match ORBIT target 13.52.");
+    }
+  }
+
+  $("firmwareCheckBtn").addEventListener("click", evaluateManualFirmware);
+  $("manualFirmware").addEventListener("keydown", event => { if (event.key === "Enter") evaluateManualFirmware(); });
 
   $("preflightBtn").addEventListener("click", () => {
     const ua = navigator.userAgent || "";
@@ -92,8 +154,8 @@
   async function checkDashboardAssets() {
     const checks = [
       { path: "./index.html", kind: "html" },
-      { path: "./styles.css?v=049", kind: "css" },
-      { path: "./app.js?v=049", kind: "js" },
+      { path: "./styles.css?v=050", kind: "css" },
+      { path: "./app.js?v=050", kind: "js" },
       { path: "./sw.js", kind: "js" },
       { path: "./manifest.webmanifest", kind: "json" }
     ];
