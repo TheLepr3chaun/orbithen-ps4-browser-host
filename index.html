@@ -7,7 +7,7 @@
   <meta name="description" content="ORBIT HEN SPACE — PS4 firmware check, jailbreak status window, and diagnostics log.">
   <title>ORBIT // HEN SPACE</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=049">
+  <link rel="stylesheet" href="./styles.css?v=050">
 </head>
 <body>
 <canvas id="matrixBg" aria-hidden="true"></canvas>
@@ -35,6 +35,18 @@
       <div class="readout"><span>Kernel R/W</span><strong id="kernelRWState" class="warn-text">NOT VERIFIED</strong></div>
       <p class="muted small">A user-agent token may be missing or inaccurate. Verify the installed version on the console itself.</p>
       <button class="secondary" id="preflightBtn" type="button">Run safe check</button>
+      <div class="compat-block">
+        <p class="eyebrow">LOCAL COMPATIBILITY</p>
+        <div class="readout"><span>Secure context</span><strong id="secureContextState">CHECKING</strong></div>
+        <div class="readout"><span>Service worker</span><strong id="serviceWorkerState">CHECKING</strong></div>
+        <div class="readout"><span>Required browser APIs</span><strong id="requiredApisState">CHECKING</strong></div>
+        <label class="firmware-label" for="manualFirmware">Installed firmware (from Settings)</label>
+        <div class="firmware-form">
+          <input id="manualFirmware" type="text" inputmode="decimal" autocomplete="off" maxlength="8" placeholder="e.g. 13.52" aria-describedby="compatibilityResult">
+          <button class="tiny" id="firmwareCheckBtn" type="button">Evaluate</button>
+        </div>
+        <p class="muted small" id="compatibilityResult">Enter the version shown in Settings → System → System Information. ORBIT cannot read the installed firmware directly.</p>
+      </div>
     </article>
 
     <article class="panel jailbreak">
@@ -57,6 +69,6 @@
   </section>
   <footer><span>ORBIT / HEN SPACE</span><span>Blue Matrix UI · Reduced-motion friendly</span></footer>
 </main>
-<script src="./app.js?v=049"></script>
+<script src="./app.js?v=050"></script>
 </body>
 </html>
