@@ -107,7 +107,8 @@
           const response = await fetch(item.path, { method: "GET", cache: "no-store" });
           const body = await response.text();
           const contentType = (response.headers.get("content-type") || "").toLowerCase();
-          const looksLikeHtml = /^(?:\\uFEFF)?\\s*(?:<!doctype\\s+html|<html\\b)/i.test(body);
+          const normalizedBody = body.trimStart().toLowerCase();
+          const looksLikeHtml = normalizedBody.startsWith("<!doctype html") || normalizedBody.startsWith("<html");
           const expectedHtml = item.kind === "html";
           const expectedType = item.kind === "css" ? /text[/]css/ :
             item.kind === "js" ? /javascript|ecmascript/ :
