@@ -1,0 +1,8 @@
+CACHE MANIFEST
+# ORBIT isolated AppCache test v1
+
+CACHE:
+./appcache-test.html
+
+NETWORK:
+*
