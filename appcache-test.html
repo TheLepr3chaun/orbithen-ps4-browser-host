@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" manifest="./orbit-test.appcache">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ORBIT // Offline Cache Test</title>
+  <style>
+    :root{color-scheme:dark}body{margin:0;padding:2rem;font:16px/1.5 system-ui,sans-serif;background:#041326;color:#e5f4ff}
+    main{max-width:44rem;margin:auto;border:1px solid #17618b;border-radius:1rem;padding:1.5rem;background:#071c31}
+    h1{color:#57d8ff}strong{color:#8cf5d4}.note{color:#b7cad8}.status{padding:.8rem;border-radius:.5rem;background:#102d46}
+  </style>
+</head>
+<body>
+<main>
+  <p>ORBIT · ISOLATED TEST</p>
+  <h1>Legacy offline cache check</h1>
+  <p>This is a standalone test page. It does not run jailbreak or kernel code and does not modify the main ORBIT dashboard.</p>
+  <p class="status">Cache status: <strong id="status">Waiting for browser cache events…</strong></p>
+  <p class="status">Network: <strong id="network">Checking…</strong></p>
+  <p id="detail" class="note">First open this page while connected and wait for the cache status to update.</p>
+  <p class="note">Test URL: /appcache-test.html</p>
+</main>
+<script>
+(function(){
+  var status=document.getElementById('status');
+  var network=document.getElementById('network');
+  var detail=document.getElementById('detail');
+  function net(){network.textContent=navigator.onLine?'ONLINE (browser signal)':'OFFLINE (browser signal)';}
+  function note(s){status.textContent=s;}
+  net();
+  window.addEventListener('online',net);
+  window.addEventListener('offline',net);
+  if(!('applicationCache' in window)){note('AppCache API unavailable');detail.textContent='This browser does not expose the legacy Application Cache API.';}
+  else {
+    var ac=window.applicationCache;
+    var names={checking:'Checking manifest…',downloading:'Downloading test files…',progress:'Downloading test files…',cached:'CACHE READY — now test offline',updateready:'Update ready — reload this page',noupdate:'No update needed — cache already present',obsolete:'Manifest obsolete',error:'CACHE ERROR — check hosting and manifest MIME type'};
+    ['checking','downloading','progress','cached','updateready','noupdate','obsolete','error'].forEach(function(e){ac.addEventListener(e,function(){note(names[e]||e);});});
+    try { if(ac.status===ac.IDLE) note('AppCache API present; waiting for manifest check…'); } catch(e) { note('AppCache status could not be read'); }
+  }
+})();
+</script>
+</body>
+</html>
