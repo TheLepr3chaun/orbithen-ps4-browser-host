@@ -7,7 +7,7 @@
   <meta name="description" content="ORBIT HEN SPACE — PS4 firmware check, jailbreak status window, and diagnostics log.">
   <title>ORBIT // HEN SPACE</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=046">
+  <link rel="stylesheet" href="./styles.css?v=049">
 </head>
 <body>
 <canvas id="matrixBg" aria-hidden="true"></canvas>
@@ -50,13 +50,13 @@
     </article>
 
     <article class="panel log-panel">
-      <div class="card-head"><div><p class="eyebrow">03 / DIAGNOSTICS</p><h3>Working log</h3></div><div class="actions"><button class="tiny" id="assetCheckBtn" type="button" onclick="if (window.orbitCheckFiles) { window.orbitCheckFiles(); } else { const logNode = document.getElementById('log'); if (logNode) { const row = document.createElement('div'); row.textContent = 'Check files failed: dashboard script entry point is unavailable. Reload the page.'; logNode.appendChild(row); } }">Check files</button><button class="tiny" id="copyBtn" type="button">Copy</button><button class="tiny" id="exportBtn" type="button">Export</button><button class="tiny" id="clearBtn" type="button">Clear</button></div></div>
+      <div class="card-head"><div><p class="eyebrow">03 / DIAGNOSTICS</p><h3>Working log</h3></div><div class="actions"><button class="tiny" id="assetCheckBtn" type="button" onclick="(function(){var n=document.getElementById('log');function note(t){if(!n)return;var r=document.createElement('div');r.className='entry';r.textContent=new Date().toISOString()+' [INFO] '+t;n.appendChild(r);n.scrollTop=n.scrollHeight;}note('Check files button clicked.');try{if(typeof window.orbitCheckFiles==='function'){window.orbitCheckFiles();}else{note('Asset checker unavailable: app.js did not expose orbitCheckFiles.');}}catch(e){note('Asset checker error: '+(e&&e.message?e.message:'unknown error'));}})()">Check files</button><button class="tiny" id="copyBtn" type="button">Copy</button><button class="tiny" id="exportBtn" type="button">Export</button><button class="tiny" id="clearBtn" type="button">Clear</button></div></div>
       <div class="log" id="log" role="log" aria-live="polite" aria-label="ORBIT diagnostics events"></div>
       <div class="log-foot"><span id="logCount">0 events</span><span>LOCAL DIAGNOSTICS</span></div>
     </article>
   </section>
   <footer><span>ORBIT / HEN SPACE</span><span>Blue Matrix UI · Reduced-motion friendly</span></footer>
 </main>
-<script src="./app.js?v=046"></script>
+<script src="./app.js?v=049"></script>
 </body>
 </html>
