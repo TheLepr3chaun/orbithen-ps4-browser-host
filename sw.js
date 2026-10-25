@@ -18,5 +18,18 @@ self.addEventListener("fetch", event => {
       caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
     }
     return response;
-  }).catch(() => caches.match("./index.html"))));
+  }).catch(() => {
+    // Only navigations may fall back to the dashboard shell. Never disguise a
+    // missing script, stylesheet, manifest, or other asset as index.html.
+    if (event.request.mode === "navigate") {
+      return caches.match("./index.html").then(page => page || new Response("ORBIT offline: dashboard page is not cached.", {
+        status: 503,
+        headers: { "Content-Type": "text/plain; charset=utf-8" }
+      }));
+    }
+    return new Response("ORBIT offline: requested resource is unavailable: " + url.pathname, {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" }
+    });
+  }));
 });
