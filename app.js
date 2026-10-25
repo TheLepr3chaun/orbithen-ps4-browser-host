@@ -154,8 +154,8 @@
   async function checkDashboardAssets() {
     const checks = [
       { path: "./index.html", kind: "html" },
-      { path: "./styles.css?v=050", kind: "css" },
-      { path: "./app.js?v=050", kind: "js" },
+      { path: "./styles.css?v=051", kind: "css" },
+      { path: "./app.js?v=051", kind: "js" },
       { path: "./sw.js", kind: "js" },
       { path: "./manifest.webmanifest", kind: "json" }
     ];
@@ -269,6 +269,7 @@
   }
 
   detectBrowser();
+  log("INFO", "GoldHEN is marked user-reported present based on the supplied System Information photo; ORBIT has not independently queried GoldHEN state.");
   log("INFO", "ORBIT dashboard ready. Firmware check, jailbreak status, and log are available.");
   startMatrix();
 })();
