@@ -26,3 +26,17 @@ Enable GitHub Pages for the repository's configured workflow. The dashboard pref
 
 ## Local preview
 Run `python3 -m http.server 8000` in the repository root and open `http://localhost:8000`.
+
+
+## Raw13G firmware 13.02–13.52 bridge
+
+ORBIT now provides a user-triggered link to the official [Raw13G host](https://raw13g.github.io/), the upstream browser-exploit host documented for PS4 firmware 13.02–13.52. The link opens the upstream site in a separate tab; ORBIT itself does **not** execute the exploit chain, claim kernel access, or verify GoldHEN handoff.
+
+### Source and license boundary
+
+- Upstream project: [raw13g/raw13g.github.io](https://github.com/raw13g/raw13g.github.io)
+- Upstream license: [LICENSE](https://github.com/raw13g/raw13g.github.io/blob/main/LICENSE)
+- The upstream license says its MIT grant applies to code authored by raw13g, but explicitly excludes bundled third-party components such as `core.js`, `mem.js`, `int64.js`, payload binaries, and kernel patch blobs. ORBIT therefore does not copy or redistribute those excluded components without verifying their separate permissions.
+- The link is a bridge to the original upstream host, not a locally integrated or independently verified exploit implementation.
+
+The firmware range and exploit availability can change. Confirm the exact installed firmware and consult the upstream project before use.
