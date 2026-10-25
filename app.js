@@ -81,6 +81,14 @@
     log("WARN", "GoldHEN handoff is not integrated or verified.");
   });
 
+  const raw13gLaunch = $("raw13gLaunch");
+  if (raw13gLaunch) {
+    raw13gLaunch.addEventListener("click", () => {
+      log("INFO", "User opened the official Raw13G upstream host in a new tab.");
+      log("WARN", "ORBIT remains a launcher/dashboard; browser stage, kernel R/W, and GoldHEN handoff are not verified here.");
+    });
+  }
+
   function logText() {
     return entries.map(e => e.at + " [" + e.level + "] " + e.message).join("\n");
   }
