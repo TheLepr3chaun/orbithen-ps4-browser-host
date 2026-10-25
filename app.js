@@ -81,11 +81,11 @@
     log("WARN", "GoldHEN handoff is not integrated or verified.");
   });
 
-  const raw13gLaunch = $("raw13gLaunch");
-  if (raw13gLaunch) {
-    raw13gLaunch.addEventListener("click", () => {
-      log("INFO", "User opened the official Raw13G upstream host in a new tab.");
-      log("WARN", "ORBIT remains a launcher/dashboard; browser stage, kernel R/W, and GoldHEN handoff are not verified here.");
+  const slopkitLaunch = $("slopkitLaunch");
+  if (slopkitLaunch) {
+    slopkitLaunch.addEventListener("click", () => {
+      log("INFO", "User opened the external Slopkit host.");
+      log("WARN", "ORBIT did not execute the exploit locally; browser-stage success, kernel R/W, and GoldHEN handoff remain unverified here.");
     });
   }
 
