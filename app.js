@@ -109,9 +109,9 @@
           const contentType = (response.headers.get("content-type") || "").toLowerCase();
           const looksLikeHtml = /^(?:\\uFEFF)?\\s*(?:<!doctype\\s+html|<html\\b)/i.test(body);
           const expectedHtml = item.kind === "html";
-          const expectedType = item.kind === "css" ? /text\\/css/ :
-            item.kind === "js" ? /(?:javascript|ecmascript)/ :
-            item.kind === "json" ? /(?:json|manifest\\+json)/ : /text\\/html/;
+          const expectedType = item.kind === "css" ? /text[/]css/ :
+            item.kind === "js" ? /javascript|ecmascript/ :
+            item.kind === "json" ? /json|manifest[+]json/ : /text[/]html/;
           let problem = "";
           if (!response.ok) problem = "HTTP " + response.status;
           else if (!expectedHtml && looksLikeHtml) problem = "received HTML instead of " + item.kind;
