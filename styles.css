@@ -45,3 +45,12 @@ footer{font-size:10px;line-height:1.6;letter-spacing:.07em;color:#7d9eb8}
   .entry{grid-template-columns:57px 40px minmax(0,1fr);gap:7px}
   .log{font-size:11px;line-height:1.8}
 }
+
+/* Local compatibility diagnostics */
+.compat-block{margin-top:18px;padding-top:15px;border-top:1px solid #12334e}
+.firmware-label{display:block;margin:15px 0 7px;color:#b5cbe0;font-size:12px;font-weight:700}
+.firmware-form{display:flex;gap:8px;align-items:stretch}
+.firmware-form input{min-width:0;flex:1;border:1px solid #1d5b83;background:#020b15;color:var(--text);border-radius:9px;padding:9px 11px;font:inherit;font-size:13px}
+.firmware-form input::placeholder{color:#63849c}
+.firmware-form input:focus{outline:2px solid var(--cyan);outline-offset:2px}
+.firmware-form button{flex:0 0 auto}
