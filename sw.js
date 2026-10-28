@@ -1,9 +1,9 @@
-const CACHE_NAME = "orbit-hen-space-v054";
+const CACHE_NAME = "orbit-hen-space-v055";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=053",
-  "./app.js?v=053",
+  "./styles.css?v=054",
+  "./app.js?v=054",
   "./manifest.webmanifest"
 ];
 
