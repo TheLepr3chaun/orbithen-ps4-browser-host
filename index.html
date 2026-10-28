@@ -3,74 +3,72 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#041326">
-  <meta name="description" content="ORBIT HEN SPACE — PS4 firmware check, jailbreak status window, and diagnostics log.">
+  <meta name="theme-color" content="#020914">
+  <meta name="description" content="ORBIT HEN SPACE — a streamlined PS4 firmware and diagnostics dashboard.">
   <title>ORBIT // HEN SPACE</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=052">
+  <link rel="stylesheet" href="./styles.css?v=053">
 </head>
 <body>
 <canvas id="matrixBg" aria-hidden="true"></canvas>
 <main class="shell">
   <header class="topbar">
-    <a class="brand" href="./" aria-label="ORBIT HEN SPACE home"><div class="mark">O</div><div><p class="eyebrow">PS4 HOMEBREW TOOLKIT</p><h1>ORBIT <span>HEN SPACE</span></h1></div></a>
+    <a class="brand" href="./" aria-label="ORBIT HEN SPACE home">
+      <div class="mark">O</div>
+      <div><p class="eyebrow">PS4 HOMEBREW TOOLKIT</p><h1>ORBIT <span>HEN SPACE</span></h1></div>
+    </a>
     <div class="pill"><i class="dot"></i><span id="uiState">DASHBOARD READY</span></div>
   </header>
 
   <section class="hero panel">
     <div class="hero-copy">
-      <p class="eyebrow">PROJECT ORBIT · BLUE MATRIX</p>
+      <p class="eyebrow">PROJECT ORBIT</p>
       <h2>Stay in <span>control.</span></h2>
-      <p class="muted">A focused PS4 firmware check, jailbreak status window, and readable diagnostics log.</p>
-      <p class="notice"><strong>SAFETY NOTE:</strong> Browser detection is only a hint. Confirm your firmware in Settings → System → System Information. This dashboard does not itself jailbreak the console.</p>
     </div>
     <div class="orb" aria-hidden="true"><span>ORBIT</span><small>HEN SPACE</small></div>
   </section>
 
   <section class="grid">
     <article class="panel">
-      <div class="card-head"><div><p class="eyebrow">01 / DEVICE</p><h3>Firmware check</h3></div><span class="tag" id="firmwareTag">CHECKING</span></div>
+      <div class="card-head"><div><p class="eyebrow">01 / DEVICE</p><h3>Firmware check</h3></div><button class="secondary compact" id="preflightBtn" type="button">Manual check</button></div>
       <div class="readout"><span>Console</span><strong id="consoleDetect">Checking browser…</strong></div>
-      <div class="readout"><span>Browser firmware token</span><strong id="firmwareDetect">Unknown</strong></div>
-      <div class="readout"><span>GoldHEN on console (photo-confirmed)</span><strong id="goldhenReportedState">USER-REPORTED PRESENT</strong></div>
-      <div class="readout"><span>Kernel R/W</span><strong id="kernelRWState" class="warn-text">NOT VERIFIED</strong></div>
-      <p class="muted small">A user-agent token may be missing or inaccurate. Verify the installed version on the console itself.</p>
-      <button class="secondary" id="preflightBtn" type="button">Run safe check</button>
-      <div class="compat-block">
-        <p class="eyebrow">LOCAL COMPATIBILITY</p>
-        <div class="readout"><span>Secure context</span><strong id="secureContextState">CHECKING</strong></div>
-        <div class="readout"><span>Service worker</span><strong id="serviceWorkerState">CHECKING</strong></div>
-        <p class="muted small">The PS4 Internet Browser does not support Service Workers, so this dashboard cannot use its service-worker offline cache on PS4. Offline support on other browsers may differ.</p>
-        <div class="readout"><span>Required browser APIs</span><strong id="requiredApisState">CHECKING</strong></div>
-        <label class="firmware-label" for="manualFirmware">Installed firmware (from Settings)</label>
-        <div class="firmware-form">
-          <input id="manualFirmware" type="text" inputmode="decimal" autocomplete="off" maxlength="8" placeholder="e.g. 13.52" aria-describedby="compatibilityResult">
-          <button class="tiny" id="firmwareCheckBtn" type="button">Evaluate</button>
+      <div class="readout"><span>Firmware token</span><strong id="firmwareDetect">Unknown</strong></div>
+      <div class="readout"><span>Kernel R/W</span><strong id="kernelRWState" class="warn-text">Not verified</strong></div>
+      <details class="advanced">
+        <summary>Advanced diagnostics</summary>
+        <div class="advanced-content">
+          <div class="readout"><span>GoldHEN status</span><strong id="goldhenReportedState">User-reported present</strong></div>
+          <div class="readout"><span>Secure context</span><strong id="secureContextState">Checking</strong></div>
+          <div class="readout"><span>Service worker</span><strong id="serviceWorkerState">Checking</strong></div>
+          <div class="readout"><span>Browser APIs</span><strong id="requiredApisState">Checking</strong></div>
+          <label class="firmware-label" for="manualFirmware">Installed firmware</label>
+          <div class="firmware-form">
+            <input id="manualFirmware" type="text" inputmode="decimal" autocomplete="off" maxlength="8" placeholder="e.g. 13.52" aria-describedby="compatibilityResult">
+            <button class="tiny" id="firmwareCheckBtn" type="button">Evaluate</button>
+          </div>
+          <p class="muted small" id="compatibilityResult">Enter the version shown in System Information.</p>
         </div>
-        <p class="muted small" id="compatibilityResult">Enter the version shown in Settings → System → System Information. ORBIT cannot read the installed firmware directly.</p>
-      </div>
+      </details>
     </article>
 
     <article class="panel jailbreak">
-      <div class="card-head"><div><p class="eyebrow">02 / JAILBREAK</p><h3>Slopkit · 13.xx</h3></div><span class="tag warn" id="exploitTag">EXTERNAL HOST</span></div>
-      <div class="jailbreak-state"><div class="state-icon" aria-hidden="true">⌁</div><div><strong id="exploitState">Slopkit host ready to open</strong><p id="exploitDetail" class="muted">For PS4 firmware 13.02–13.52, the documented full chain pairs Slopkit WebKit userland with a compatible kernel stage.</p></div></div>
-      <a class="secondary launch-link" id="slopkitLaunch" href="https://webkitty.arabpixel.net/" target="_blank" rel="noopener noreferrer">Open Slopkit host ↗</a>
-      <p class="muted small">ORBIT opens an independent host; it does not embed or execute the exploit locally. Confirm firmware in Settings and follow the upstream host's firmware-specific instructions.</p>
+      <div class="card-head"><div><p class="eyebrow">02 / HOST</p><h3>Slopkit · 13.xx</h3></div><span class="tag warn" id="exploitTag">EXTERNAL HOST</span></div>
+      <div class="jailbreak-state"><div class="state-icon" aria-hidden="true">⌁</div><div><strong id="exploitState">Slopkit host ready to open</strong><p id="exploitDetail" class="muted">Open the external host for its firmware-specific flow.</p></div></div>
+      <a class="secondary launch-link" id="slopkitLaunch" href="https://webkitty.arabpixel.net/" target="_blank" rel="noopener noreferrer">Open Slopkit host <span aria-hidden="true">↗</span></a>
       <div class="progress-track"><span id="stageProgress"></span></div>
       <div class="stage-row"><span>Browser stage</span><b id="browserStage">NOT RUN</b></div>
       <div class="stage-row"><span>Kernel R/W</span><b id="kernelStage">UNVERIFIED</b></div>
       <div class="stage-row"><span>GoldHEN handoff</span><b id="goldhenStage">NOT TESTED</b></div>
-      <p class="notice"><strong>NO EXPLOIT EXECUTED.</strong> No kernel memory is accessed by the safe check. Status will not show success unless a compatible stage is genuinely integrated and verified.</p>
     </article>
 
     <article class="panel log-panel">
-      <div class="card-head"><div><p class="eyebrow">03 / DIAGNOSTICS</p><h3>Working log</h3></div><div class="actions"><button class="tiny" id="assetCheckBtn" type="button" onclick="(function(){var n=document.getElementById('log');function note(t){if(!n)return;var r=document.createElement('div');r.className='entry';r.textContent=new Date().toISOString()+' [INFO] '+t;n.appendChild(r);n.scrollTop=n.scrollHeight;}note('Check files button clicked.');try{if(typeof window.orbitCheckFiles==='function'){window.orbitCheckFiles();}else{note('Asset checker unavailable: app.js did not expose orbitCheckFiles.');}}catch(e){note('Asset checker error: '+(e&&e.message?e.message:'unknown error'));}})()">Check files</button><button class="tiny" id="copyBtn" type="button">Copy</button><button class="tiny" id="exportBtn" type="button">Export</button><button class="tiny" id="clearBtn" type="button">Clear</button></div></div>
+      <div class="card-head"><div><p class="eyebrow">03 / ACTIVITY</p><h3>Diagnostics log</h3></div><div class="actions"><button class="tiny" id="assetCheckBtn" type="button">Check files</button><button class="tiny" id="copyBtn" type="button">Copy</button><button class="tiny" id="exportBtn" type="button">Export</button><button class="tiny" id="clearBtn" type="button">Clear</button></div></div>
       <div class="log" id="log" role="log" aria-live="polite" aria-label="ORBIT diagnostics events"></div>
-      <div class="log-foot"><span id="logCount">0 events</span><span>LOCAL DIAGNOSTICS</span></div>
+      <div class="log-foot"><span id="logCount">0 events</span><span>LOCAL LOG</span></div>
     </article>
   </section>
-  <footer><span>ORBIT / HEN SPACE</span><span>Blue Matrix UI · Reduced-motion friendly</span></footer>
+  <footer><span>ORBIT / HEN SPACE</span><span>BLUE MATRIX</span></footer>
 </main>
-<script src="./app.js?v=052"></script>
+<script src="./app.js?v=053"></script>
 </body>
 </html>

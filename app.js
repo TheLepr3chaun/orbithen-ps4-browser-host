@@ -157,8 +157,8 @@
   async function checkDashboardAssets() {
     const checks = [
       { path: "./index.html", kind: "html" },
-      { path: "./styles.css?v=052", kind: "css" },
-      { path: "./app.js?v=052", kind: "js" },
+      { path: "./styles.css?v=053", kind: "css" },
+      { path: "./app.js?v=053", kind: "js" },
       { path: "./sw.js", kind: "js" },
       { path: "./manifest.webmanifest", kind: "json" }
     ];
