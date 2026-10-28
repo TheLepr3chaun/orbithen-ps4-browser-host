@@ -7,7 +7,7 @@
   <meta name="description" content="ORBIT HEN SPACE — a streamlined PS4 firmware and diagnostics dashboard.">
   <title>ORBIT // HEN SPACE</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=053">
+  <link rel="stylesheet" href="./styles.css?v=054">
 </head>
 <body>
 <canvas id="matrixBg" aria-hidden="true"></canvas>
@@ -30,10 +30,17 @@
 
   <section class="grid">
     <article class="panel">
-      <div class="card-head"><div><p class="eyebrow">01 / DEVICE</p><h3>Firmware check</h3></div><button class="secondary compact" id="preflightBtn" type="button">Manual check</button></div>
+      <div class="card-head"><div><p class="eyebrow">01 / DEVICE</p><h3>Firmware check</h3></div><span class="tag warn" id="firmwareTag">MANUAL CHECK</span></div>
       <div class="readout"><span>Console</span><strong id="consoleDetect">Checking browser…</strong></div>
       <div class="readout"><span>Firmware token</span><strong id="firmwareDetect">Unknown</strong></div>
       <div class="readout"><span>Kernel R/W</span><strong id="kernelRWState" class="warn-text">Not verified</strong></div>
+      <div class="firmware-label">Check installed firmware</div>
+      <div class="firmware-form">
+        <input id="manualFirmware" type="text" inputmode="decimal" autocomplete="off" maxlength="8" placeholder="Enter version, e.g. 13.52" aria-describedby="compatibilityResult">
+        <button class="tiny" id="firmwareCheckBtn" type="button">Test firmware</button>
+      </div>
+      <p class="muted small" id="compatibilityResult">Enter the version shown in System Information.</p>
+      <button class="secondary compact preflight-action" id="preflightBtn" type="button">Run device check</button>
       <details class="advanced">
         <summary>Advanced diagnostics</summary>
         <div class="advanced-content">
@@ -41,12 +48,6 @@
           <div class="readout"><span>Secure context</span><strong id="secureContextState">Checking</strong></div>
           <div class="readout"><span>Service worker</span><strong id="serviceWorkerState">Checking</strong></div>
           <div class="readout"><span>Browser APIs</span><strong id="requiredApisState">Checking</strong></div>
-          <label class="firmware-label" for="manualFirmware">Installed firmware</label>
-          <div class="firmware-form">
-            <input id="manualFirmware" type="text" inputmode="decimal" autocomplete="off" maxlength="8" placeholder="e.g. 13.52" aria-describedby="compatibilityResult">
-            <button class="tiny" id="firmwareCheckBtn" type="button">Evaluate</button>
-          </div>
-          <p class="muted small" id="compatibilityResult">Enter the version shown in System Information.</p>
         </div>
       </details>
     </article>
@@ -69,6 +70,6 @@
   </section>
   <footer><span>ORBIT / HEN SPACE</span><span>BLUE MATRIX</span></footer>
 </main>
-<script src="./app.js?v=053"></script>
+<script src="./app.js?v=054"></script>
 </body>
 </html>
