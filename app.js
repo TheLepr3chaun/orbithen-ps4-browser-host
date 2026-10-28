@@ -43,12 +43,12 @@
     $("firmwareDetect").textContent = fw || "Unknown — verify in Settings";
     $("kernelRWState").textContent = "NOT VERIFIED";
     $("uiState").textContent = isPS4 ? "PS4 BROWSER DETECTED" : "DASHBOARD READY";
-    $("firmwareTag").textContent = fw ? "TOKEN FOUND" : "MANUAL CHECK";
+    if ($("firmwareTag")) $("firmwareTag").textContent = fw ? "TOKEN FOUND" : "MANUAL CHECK";
     if (fw === targetFirmware) {
-      $("firmwareTag").className = "tag";
+      if ($("firmwareTag")) $("firmwareTag").className = "tag";
       log("INFO", "Browser token matches target 13.52; verify in System Information.");
     } else {
-      $("firmwareTag").className = "tag warn";
+      if ($("firmwareTag")) $("firmwareTag").className = "tag warn";
       log("WARN", fw ? "Browser token reports " + fw + "; target is 13.52. Verify in Settings." : "No explicit firmware token found; firmware remains unknown.");
     }
     log("INFO", "Console detection: " + (isPS4 ? "PS4 browser" : isPS5 ? "PS5 browser" : "not identified") + ".");
@@ -123,6 +123,8 @@
   }
 
   $("firmwareCheckBtn").addEventListener("click", evaluateManualFirmware);
+  const assetCheckButton = $("assetCheckBtn");
+  if (assetCheckButton) assetCheckButton.addEventListener("click", checkDashboardAssets);
   $("manualFirmware").addEventListener("keydown", event => { if (event.key === "Enter") evaluateManualFirmware(); });
 
   $("preflightBtn").addEventListener("click", () => {
@@ -130,8 +132,10 @@
     const isPS4 = /PlayStation 4/i.test(ua) && !/PlayStation 5/i.test(ua);
     const fw = firmwareToken(ua);
     log("INFO", "Safe firmware check started; no exploit code executed.");
-    $("firmwareTag").textContent = fw === targetFirmware ? "TOKEN MATCH" : "CHECK SETTINGS";
-    $("firmwareTag").className = fw === targetFirmware ? "tag" : "tag warn";
+    if ($("firmwareTag")) {
+      $("firmwareTag").textContent = fw === targetFirmware ? "TOKEN MATCH" : "CHECK SETTINGS";
+      $("firmwareTag").className = fw === targetFirmware ? "tag" : "tag warn";
+    }
     $("exploitTag").textContent = "PREFLIGHT ONLY";
     $("exploitState").textContent = "Safe check complete";
     $("exploitDetail").textContent = "No jailbreak was attempted. ORBIT's exploit stage is not integrated.";
@@ -157,8 +161,8 @@
   async function checkDashboardAssets() {
     const checks = [
       { path: "./index.html", kind: "html" },
-      { path: "./styles.css?v=053", kind: "css" },
-      { path: "./app.js?v=053", kind: "js" },
+      { path: "./styles.css?v=054", kind: "css" },
+      { path: "./app.js?v=054", kind: "js" },
       { path: "./sw.js", kind: "js" },
       { path: "./manifest.webmanifest", kind: "json" }
     ];
